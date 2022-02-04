@@ -16,6 +16,15 @@
   &:active {
     background-color: #808080;
   }
+  &.Green {
+    background-color: $green;
+  }
+  &.Yellow {
+    background-color: $yellow;
+  }
+  &.Grey {
+    background-color: $grey;
+  }
 }
 .row {
   display: flex;

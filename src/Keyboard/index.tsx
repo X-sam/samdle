@@ -1,33 +1,23 @@
+import { PickedTypes } from "~src/Game";
 import classes from "./keyboard.module.scss";
 
 const rows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
-const Key = ({ keyName, changeWord }) => (
+const Key = ({ keyName, checked = "", ...props }) => (
   <div
-    className={classes.key}
-    onClick={() => {
-      changeWord(keyName);
-    }}
+    className={`${classes.key} ${checked !== "" ? classes[checked] : ""}`}
+    {...props}
   >
     {keyName}
   </div>
 );
 
-const Enter = ({ submit }) => (
-  <div className={classes.key} onClick={() => submit()}>
-    ⏎
-  </div>
-);
-const Delete = ({ changeWord }) => (
-  <div className={classes.key} onClick={() => changeWord()}>
-    ⌫
-  </div>
-);
-
 //changeWord with arg- add letter. No arg- delete letter.
 export const Keyboard = ({
+  checkedLetters,
   changeWord,
   submit,
 }: {
+  checkedLetters: Record<string, PickedTypes | "">;
   changeWord: (_?: string) => void;
   submit: () => void;
 }) => {
@@ -37,9 +27,17 @@ export const Keyboard = ({
         <div className={classes.row}>
           {[...row].map((keyName) => (
             <>
-              {keyName === "Z" && <Enter {...{ submit }} />}
-              <Key {...{ keyName, changeWord }} />
-              {keyName === "M" && <Delete {...{ changeWord }} />}
+              {keyName === "Z" && (
+                <Key keyName={"⏎"} onClick={() => submit()} />
+              )}
+              <Key
+                checked={checkedLetters[keyName]}
+                onClick={() => changeWord(keyName)}
+                {...{ keyName }}
+              />
+              {keyName === "M" && (
+                <Key keyName={"⌫"} onClick={() => changeWord()} />
+              )}
             </>
           ))}
         </div>

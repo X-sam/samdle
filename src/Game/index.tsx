@@ -4,11 +4,11 @@ import { Keyboard } from "~/src/Keyboard";
 import * as wlist from "~/src/wlist.json";
 
 import classes from "./game.module.scss";
-import { getEnvironmentData } from "worker_threads";
 
+export type PickedTypes = "Green" | "Yellow" | "Grey";
 interface MoveType {
   letter: string;
-  type: "Green" | "Yellow" | "Grey";
+  type: PickedTypes;
 }
 
 const compareWord = (move, word) =>
@@ -20,6 +20,9 @@ export const Game = ({ word }: { word: string }) => {
   const [moves, setMoves] = useState<MoveType[][]>([...Array(6).keys()] as any);
   const [currentGuess, setCurrentGuess] = useState(0);
   const [currentRow, setCurrentRow] = useState("");
+  const [checkedLetters, setCheckedLetters] = useState<
+    Record<string, PickedTypes>
+  >({});
   const onSubmit = useCallback(() => {
     if (gameState !== "Playing") return;
     if (word === currentRow) {
@@ -39,16 +42,23 @@ export const Game = ({ word }: { word: string }) => {
     if (moves.find((move) => move.reduce && compareWord(move, currentRow)))
       return; //Animate shake
     const newMoves = [...moves];
-    newMoves[currentGuess] = [...currentRow].map((letter) => ({
-      letter,
-      type: "Grey",
-    }));
+    const newPicks = { ...checkedLetters };
 
+    newMoves[currentGuess] = [...currentRow].map((letter) => {
+      newPicks[letter] === "Green" || newPicks[letter] === "Yellow"
+        ? ""
+        : (newPicks[letter] = "Grey");
+      return {
+        letter,
+        type: "Grey",
+      };
+    });
     const checkedWord = [...word];
     //check greens
     [...word].forEach((letter, idx) => {
       if (letter === currentRow[idx]) {
         newMoves[currentGuess][idx] = { type: "Green", letter };
+        newPicks[letter] = "Green";
         checkedWord[idx] = "_";
       }
     });
@@ -59,10 +69,11 @@ export const Game = ({ word }: { word: string }) => {
       if (idxLet > -1) {
         checkedWord[idxLet] = "_";
         newMoves[currentGuess][idx] = { type: "Yellow", letter };
+        newPicks[letter] === "Green" ? "" : (newPicks[letter] = "Yellow");
       }
     });
-
     setMoves(newMoves);
+    setCheckedLetters(newPicks);
     if (currentGuess === 5) {
       setGameState("Lost");
       return;
@@ -87,15 +98,21 @@ export const Game = ({ word }: { word: string }) => {
     [gameState, currentRow, setCurrentRow]
   );
   return (
-    <div
-      onKeyPress={({ key }) => {
-        if (((key) => "A" && key <= "Z") || (key >= "a" && key <= "z"))
-          onWordChange(key.toUpperCase());
-        if (key === "Enter") onSubmit();
-        if (key === "Delete") onWordChange();
-      }}
-    >
-      <div className={classes.container}>
+    <>
+      <div
+        tabIndex={-1}
+        className={classes.container}
+        onKeyDown={({ key, code }) => {
+          console.log(code);
+          if (key === "Enter") onSubmit();
+          if (key === "Delete" || key === "Backspace") onWordChange();
+          if (
+            key.length === 1 &&
+            ((key >= "A" && key <= "Z") || (key >= "a" && key <= "z"))
+          )
+            onWordChange(key.toUpperCase());
+        }}
+      >
         <div className={classes.grid}>
           {moves.map((tiles, idx) => (
             <div className={classes.row}>
@@ -113,7 +130,11 @@ export const Game = ({ word }: { word: string }) => {
           ))}
         </div>
       </div>
-      <Keyboard changeWord={onWordChange} submit={onSubmit} />
-    </div>
+      <Keyboard
+        changeWord={onWordChange}
+        submit={onSubmit}
+        {...{ checkedLetters }}
+      />
+    </>
   );
 };
