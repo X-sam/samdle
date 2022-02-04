@@ -1,0 +1,36 @@
+@import "../theme.module.scss";
+
+.key {
+  flex: 1;
+  background-color: #c0c0c0;
+  color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 0.2vw $bgLight;
+  border-radius: 0.5vw;
+  user-select: none;
+  &:hover {
+    background-color: #a0a0a0;
+  }
+  &:active {
+    background-color: #808080;
+  }
+}
+.row {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  &:nth-child(2) {
+    width: 95%;
+  }
+}
+.container {
+  display: flex;
+  width: 40vw;
+  aspect-ratio: 5;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2vmin;
+}

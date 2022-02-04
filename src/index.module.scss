@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600&display=swap");
+@import "theme.module.scss";
+.tester {
+  font-family: "Readex Pro", sans-serif;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #f8f8f8;
+  background-color: #1b1b1b;
+}

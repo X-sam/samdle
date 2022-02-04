@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "~*": ["./*"]
+    },
+    "resolveJsonModule": true,
+    "jsx": "react-jsx",
+    "downlevelIteration": true
+  }
+}

@@ -1,0 +1,22 @@
+@import "../theme.module.scss";
+
+.tile {
+  aspect-ratio: 1;
+  overflow: hidden;
+  background-color: $bgLight;
+  border: solid 2px $lineColor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 7vmin;
+}
+
+.Green {
+  background-color: #448844;
+}
+.Yellow {
+  background-color: #888844;
+}
+.Grey {
+  background-color: $bgLight;
+}
