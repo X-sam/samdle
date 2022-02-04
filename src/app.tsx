@@ -1,7 +1,7 @@
 import { addDays, differenceInHours } from "date-fns";
 import classes from "./index.module.scss";
 import { MersenneTwister19937, shuffle } from "random-js";
-import * as words from "./wlist.json";
+import words from "./wlist.js";
 import { Countdown } from "./Countdown";
 import { Game } from "./Game";
 

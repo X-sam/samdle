@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { Tile } from "../Tile";
 import { Keyboard } from "~/src/Keyboard";
-import * as wlist from "~/src/wlist.json";
+import wlist from "~/src/wlist.js";
 
 import classes from "./game.module.scss";
 
