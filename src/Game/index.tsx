@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useEventListener } from "usehooks-ts";
 import { Tile } from "~/src/Tile";
 import { Keyboard } from "~/src/Keyboard";
@@ -21,6 +21,7 @@ export const Game = ({ word }: { word: string }) => {
   const [moves, setMoves] = useState<MoveType[][]>([...Array(6).keys()] as any);
   const [currentGuess, setCurrentGuess] = useState(0);
   const [currentRow, setCurrentRow] = useState("");
+  const curRef = useRef<HTMLDivElement>();
   const [checkedLetters, setCheckedLetters] = useState<
     Record<string, PickedTypes>
   >({});
@@ -94,11 +95,16 @@ export const Game = ({ word }: { word: string }) => {
   const onWordChange = useCallback(
     (letter?: string) => {
       if (gameState !== "Playing") return;
+      curRef.current.scrollIntoView(false);
       if (!letter) return setCurrentRow(currentRow.slice(0, -1));
       if (currentRow.length < 5) setCurrentRow(`${currentRow}${letter}`);
     },
     [gameState, currentRow, setCurrentRow]
   );
+  useEffect(() => {
+    if (!curRef) return;
+    curRef.current.scrollIntoView();
+  }, [curRef]);
 
   const onKeyDown = useCallback(
     ({ key }) => {
@@ -119,7 +125,10 @@ export const Game = ({ word }: { word: string }) => {
       <div tabIndex={-1} className={classes.container}>
         <div className={classes.grid}>
           {moves.map((tiles, idx) => (
-            <div className={classes.row}>
+            <div
+              ref={idx === currentGuess ? curRef : undefined}
+              className={classes.row}
+            >
               {[...Array(5).keys()].map((tileIdx) => (
                 <Tile
                   letter={

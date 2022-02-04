@@ -2,6 +2,12 @@
 
 .tile {
   aspect-ratio: 1;
+  min-width: 18px;
+  max-width: 80px;
+  min-height: 18px;
+  max-height: 80px;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
   background-color: $bgLight;
   border: solid 2px $lineColor;

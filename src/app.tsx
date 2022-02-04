@@ -19,7 +19,7 @@ const countdown = addDays(StartDay, word + 1);
 export const App = () => {
   const done = false;
   return (
-    <div className={classes.tester}>
+    <div className={classes.root}>
       {done && <Countdown nextDay={countdown} />}
       {!done && <Game word={wlist[word]} />}
     </div>
