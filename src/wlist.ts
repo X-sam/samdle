@@ -1,5 +1,5 @@
 //Sourced from https://www.kaggle.com/rtatman/english-word-frequency
-export default wlist = [
+export const wlist = [
   "ABOUT",
   "OTHER",
   "WHICH",

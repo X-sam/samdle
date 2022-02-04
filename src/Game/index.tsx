@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { useEventListener } from "usehooks-ts";
 import { Tile } from "~/src/Tile";
 import { Keyboard } from "~/src/Keyboard";
-import wlist from "~/src/wlist.js";
+import { wlist } from "~/src/wlist";
 
 import classes from "./game.module.scss";
 
