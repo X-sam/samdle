@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
-import { Tile } from "../Tile";
+import { useEventListener } from "usehooks-ts";
+import { Tile } from "~/src/Tile";
 import { Keyboard } from "~/src/Keyboard";
 import wlist from "~/src/wlist.js";
 
@@ -23,6 +24,7 @@ export const Game = ({ word }: { word: string }) => {
   const [checkedLetters, setCheckedLetters] = useState<
     Record<string, PickedTypes>
   >({});
+
   const onSubmit = useCallback(() => {
     if (gameState !== "Playing") return;
     if (word === currentRow) {
@@ -97,22 +99,24 @@ export const Game = ({ word }: { word: string }) => {
     },
     [gameState, currentRow, setCurrentRow]
   );
+
+  const onKeyDown = useCallback(
+    ({ key }) => {
+      if (key === "Enter") onSubmit();
+      if (key === "Delete" || key === "Backspace") onWordChange();
+      if (
+        key.length === 1 &&
+        ((key >= "A" && key <= "Z") || (key >= "a" && key <= "z"))
+      )
+        onWordChange(key.toUpperCase());
+    },
+    [onWordChange, onSubmit]
+  );
+  useEventListener("keydown", onKeyDown);
+
   return (
     <>
-      <div
-        tabIndex={-1}
-        className={classes.container}
-        onKeyDown={({ key, code }) => {
-          console.log(code);
-          if (key === "Enter") onSubmit();
-          if (key === "Delete" || key === "Backspace") onWordChange();
-          if (
-            key.length === 1 &&
-            ((key >= "A" && key <= "Z") || (key >= "a" && key <= "z"))
-          )
-            onWordChange(key.toUpperCase());
-        }}
-      >
+      <div tabIndex={-1} className={classes.container}>
         <div className={classes.grid}>
           {moves.map((tiles, idx) => (
             <div className={classes.row}>
