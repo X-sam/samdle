@@ -16,7 +16,10 @@
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.2.1",
+    "@parcel/transformer-svg-react": "^2.2.1",
     "@types/react": "^17.0.39",
+    "@types/react-transition-group": "^4.4.4",
+    "animate.css": "^4.1.1",
     "date-fns": "^2.28.0",
     "date-fns-tz": "^1.2.2",
     "node-sass": "^7.0.1",
@@ -24,6 +27,7 @@
     "random-js": "^2.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-transition-group": "^4.4.2",
     "typed-scss-modules": "^5.0.0",
     "usehooks-ts": "^2.3.0"
   }

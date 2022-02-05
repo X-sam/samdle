@@ -1,5 +1,5 @@
 export type Styles = {
-  'tester': string;
+  'root': string;
 };
 
 export type ClassNames = keyof Styles;

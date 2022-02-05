@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { addDays, differenceInHours } from "date-fns";
 import classes from "./index.module.scss";
 import { MersenneTwister19937, shuffle } from "random-js";
@@ -10,18 +11,13 @@ const Rnader = MersenneTwister19937.seed(19879313);
 const wlist = shuffle(Rnader, words);
 const StartDay = Date.UTC(2022, 1, 3, 5);
 const word = Math.floor(differenceInHours(new Date(), StartDay) / 24);
-
-const gamestate = {
-  round: 0,
-  answer: wlist[word],
-};
 const countdown = addDays(StartDay, word + 1);
+export type GameStates = "Playing" | "Lost" | "Won";
 export const App = () => {
-  const done = false;
+  const [gameState, setGameState] = useState<GameStates>("Playing");
   return (
     <div className={classes.root}>
-      {done && <Countdown nextDay={countdown} />}
-      {!done && <Game word={wlist[word]} />}
+      {<Game word={wlist[word]} {...{ gameState, setGameState }} />}
     </div>
   );
 };

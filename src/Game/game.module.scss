@@ -1,3 +1,4 @@
+@use "~/node_modules/animate.css/animate.css";
 @import "../theme.module.scss";
 
 .row {
@@ -5,7 +6,44 @@
   column-gap: 1vmin;
   justify-content: center;
 }
-
+.rowEnter {
+  margin-left: 0;
+  position: relative;
+  ::before {
+    content: "";
+    background-color: $red;
+  }
+}
+.rowActive {
+  animation: shakeX 100ms;
+  ::before {
+    animation: flash 100ms;
+  }
+  overflow: hidden;
+}
+@keyframes winSpin {
+  from {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(180deg);
+  }
+  to {
+    transform: rotateY(0deg);
+  }
+}
+.rowWinEnter {
+  position: relative;
+}
+.rowWinActive {
+  position: relative;
+  @for $i from 1 through 6 {
+    :nth-child(#{$i}) {
+      animation: winSpin 2s;
+      animation-delay: ($i * 100ms);
+    }
+  }
+}
 .grid {
   display: grid;
   grid-template-rows: repeat(6, min-content) minmax(0, 100fr);
@@ -13,10 +51,29 @@
   row-gap: 1vmin;
 }
 
+$cellCount: 5;
+$cellMax: 84;
+$spacing: 8;
+
 .container {
   grid-area: 1/2/1/2;
   overflow: scroll;
   &:focus-visible {
     outline: none;
   }
+  width: 100%;
+  justify-self: center;
+  max-width: ($cellMax * $cellCount + $spacing * ($cellCount - 1px));
+}
+.gameWinEnter {
+  position: relative;
+}
+.gameWinActive {
+  position: relative;
+}
+.gameLostEnter {
+  position: relative;
+}
+.gameLostActive {
+  position: relative;
 }
