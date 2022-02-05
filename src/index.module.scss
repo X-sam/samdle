@@ -2,12 +2,13 @@
 @import "theme.module.scss";
 .root {
   width: 100vw;
-  height: 96vh;
+  height: 90vh;
   display: grid;
-  grid-auto-rows: auto;
-  grid-template-columns: 1fr 18fr 1fr;
+  grid-template-rows: 60vh 1fr;
+  grid-template-columns: 1fr max-content 1fr;
+  justify-items: center;
   overflow: hidden;
-  margin: 2vh 0;
+  margin: 1vh 0;
   row-gap: 1vmin;
   font-family: "Readex Pro", sans-serif;
   color: #f8f8f8;

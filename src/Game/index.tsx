@@ -146,47 +146,43 @@ export const Game = ({
       }}
     >
       <>
-        <div tabIndex={-1} className={classes.container}>
-          <div className={classes.grid}>
-            {moves.map((tiles, idx) => (
-              <CSSTransition
-                key={idx}
-                in={idx < currentGuess || (idx === currentGuess && fail)}
-                timeout={gameState === "Playing" ? 100 : 5000}
-                onEntered={() => {
-                  setFail(false);
-                }}
-                classNames={{
-                  enter:
-                    gameState === "Won"
-                      ? classes.rowWinEnter
-                      : classes.rowEnter,
-                  enterActive:
-                    gameState === "Won"
-                      ? classes.rowWinActive
-                      : classes.rowActive,
-                }}
+        <div className={`${classes.grid} `}>
+          {moves.map((tiles, idx) => (
+            <CSSTransition
+              key={idx}
+              in={idx < currentGuess || (idx === currentGuess && fail)}
+              timeout={gameState === "Playing" ? 100 : 5000}
+              onEntered={() => {
+                setFail(false);
+              }}
+              classNames={{
+                enter:
+                  gameState === "Won" ? classes.rowWinEnter : classes.rowEnter,
+                enterActive:
+                  gameState === "Won"
+                    ? classes.rowWinActive
+                    : classes.rowActive,
+              }}
+            >
+              <div
+                ref={idx === currentGuess ? curRef : undefined}
+                className={classes.row}
               >
-                <div
-                  ref={idx === currentGuess ? curRef : undefined}
-                  className={classes.row}
-                >
-                  {[...Array(5).keys()].map((tileIdx) => (
-                    <Tile
-                      letter={
-                        idx === currentGuess
-                          ? currentRow[tileIdx]
-                          : tiles[tileIdx]?.letter
-                      }
-                      type={
-                        idx !== currentGuess ? tiles[tileIdx]?.type : undefined
-                      }
-                    />
-                  ))}
-                </div>
-              </CSSTransition>
-            ))}
-          </div>
+                {[...Array(5).keys()].map((tileIdx) => (
+                  <Tile
+                    letter={
+                      idx === currentGuess
+                        ? currentRow[tileIdx]
+                        : tiles[tileIdx]?.letter
+                    }
+                    type={
+                      idx !== currentGuess ? tiles[tileIdx]?.type : undefined
+                    }
+                  />
+                ))}
+              </div>
+            </CSSTransition>
+          ))}
         </div>
         <Keyboard
           changeWord={onWordChange}

@@ -2,7 +2,9 @@
 @import "../theme.module.scss";
 
 .row {
-  display: flex;
+  display: grid;
+  grid-template-columns: inherit;
+  grid-column: 1/6;
   column-gap: 1vmin;
   justify-content: center;
 }
@@ -46,25 +48,15 @@
 }
 .grid {
   display: grid;
-  grid-template-rows: repeat(6, min-content) minmax(0, 100fr);
-  height: 100%;
+  grid-template-rows: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+  grid-column: 2/2;
+
+  aspect-ratio: 5 / 6.5;
+  max-width: 95vw;
   row-gap: 1vmin;
 }
 
-$cellCount: 5;
-$cellMax: 84;
-$spacing: 8;
-
-.container {
-  grid-area: 1/2/1/2;
-  overflow: scroll;
-  &:focus-visible {
-    outline: none;
-  }
-  width: 100%;
-  justify-self: center;
-  max-width: ($cellMax * $cellCount + $spacing * ($cellCount - 1px));
-}
 .gameWinEnter {
   position: relative;
 }
