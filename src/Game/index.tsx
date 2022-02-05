@@ -6,7 +6,8 @@ import { Keyboard } from "~/src/Keyboard";
 import { guessList } from "~/src/wlist";
 
 import classes from "./game.module.scss";
-import { MoveType, PickedTypes, State, StateType } from "~src/state";
+import { State } from "~src/state";
+import { PickedTypes } from "~src/types";
 
 const compareWord = (move, word) =>
   move.reduce((acc, l, idx) => acc && l === [...word][idx], true) ?? false;

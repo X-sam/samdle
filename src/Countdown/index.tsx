@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { intervalToDuration } from "date-fns";
 import { useInterval } from "usehooks-ts";
 import classes from "./countdown.module.scss";
+import { State } from "~src/state";
 
-export const Countdown = ({ nextDay }: { nextDay: Date }) => {
+export const Countdown = () => {
+  const { nextDay } = useContext(State);
   const [ival, setIval] = useState(
     intervalToDuration({ start: Date.now(), end: nextDay })
   );
