@@ -3,7 +3,7 @@ import { addDays, differenceInHours } from "date-fns";
 import classes from "./index.module.scss";
 import { MersenneTwister19937, shuffle } from "random-js";
 import { wlist as words } from "./wlist";
-import { Countdown } from "./Countdown";
+import { Modal } from "./Modal";
 import { Game } from "./Game";
 
 const Rnader = MersenneTwister19937.seed(19879313);
@@ -17,6 +17,7 @@ export const App = () => {
   const [gameState, setGameState] = useState<GameStates>("Playing");
   return (
     <div className={classes.root}>
+      {gameState !== "Playing" && <Modal nextDay={countdown} />}
       {<Game word={wlist[word]} {...{ gameState, setGameState }} />}
     </div>
   );
