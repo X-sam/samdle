@@ -1,33 +1,21 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import { useEventListener } from "usehooks-ts";
 import { Tile } from "~/src/Tile";
 import { Keyboard } from "~/src/Keyboard";
 import { guessList } from "~/src/wlist";
-import { GameStates } from "~src/app";
 
 import classes from "./game.module.scss";
-
-export type PickedTypes = "Green" | "Yellow" | "Grey";
-interface MoveType {
-  letter: string;
-  type: PickedTypes;
-}
+import { MoveType, PickedTypes, State, StateType } from "~src/state";
 
 const compareWord = (move, word) =>
   move.reduce((acc, l, idx) => acc && l === [...word][idx], true) ?? false;
-export const Game = ({
-  word,
-  gameState,
-  setGameState,
-}: {
-  word: string;
-  gameState: GameStates;
-  setGameState: (_: GameStates) => void;
-}) => {
-  const [moves, setMoves] = useState<MoveType[][]>([...Array(6).keys()] as any);
-  const [currentGuess, setCurrentGuess] = useState(0);
-  const [currentRow, setCurrentRow] = useState("");
+export const Game = () => {
+  const state = useContext(State);
+  const { gameState, word, moves, currentRow, currentGuess, setState } = state;
+  const setCurrentRow = (row: string) =>
+    setState({ ...state, currentRow: row });
+
   const curRef = useRef<HTMLDivElement>();
   const [fail, setFail] = useState(false);
   const [checkedLetters, setCheckedLetters] = useState<
@@ -37,15 +25,18 @@ export const Game = ({
   const onSubmit = useCallback(() => {
     if (gameState !== "Playing") return;
     if (word === currentRow) {
-      setGameState("Won");
       const newMoves = [...moves];
       newMoves[currentGuess] = [...currentRow].map((letter) => ({
         letter,
         type: "Green",
       }));
-      setMoves(newMoves);
-      setCurrentRow("");
-      setCurrentGuess(currentGuess + 1);
+      setState({
+        ...state,
+        moves: newMoves,
+        currentGuess: currentGuess + 1,
+        currentRow: "",
+        gameState: "Won",
+      });
       return;
     } //End Game
     if (currentRow.length !== 5) {
@@ -89,23 +80,24 @@ export const Game = ({
         newPicks[letter] === "Green" ? "" : (newPicks[letter] = "Yellow");
       }
     });
-    setMoves(newMoves);
     setCheckedLetters(newPicks);
     if (currentGuess === 5) {
-      setGameState("Lost");
+      setState({
+        ...state,
+        moves: newMoves,
+        currentGuess: currentGuess + 1,
+        currentRow: "",
+        gameState: "Lost",
+      });
       return;
     }
-    setCurrentGuess(currentGuess + 1);
-    setCurrentRow("");
-  }, [
-    currentRow,
-    moves,
-    currentGuess,
-    setGameState,
-    setMoves,
-    setCurrentGuess,
-    setCurrentRow,
-  ]);
+    setState({
+      ...state,
+      moves: newMoves,
+      currentGuess: currentGuess + 1,
+      currentRow: "",
+    });
+  }, [currentRow, moves, currentGuess, setState]);
   const onWordChange = useCallback(
     (letter?: string) => {
       if (gameState !== "Playing") return;
@@ -137,12 +129,15 @@ export const Game = ({
   return (
     <CSSTransition
       in={gameState === "Won" || gameState === "Lost"}
-      timeout={5000}
+      timeout={3000}
       classNames={{
         enter:
           gameState === "Won" ? classes.gameWinEnter : classes.gameLostEnter,
         enterActive:
           gameState === "Won" ? classes.gameWinActive : classes.gameLostActive,
+      }}
+      onEntered={() => {
+        setState({ ...state, showModal: true });
       }}
     >
       <>
