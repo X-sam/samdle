@@ -3,6 +3,7 @@ import { CSSTransition } from "react-transition-group";
 import { useEventListener } from "usehooks-ts";
 import { Tile } from "~/src/Tile";
 import { Keyboard } from "~/src/Keyboard";
+import { guessList } from "~/src/wlist";
 import { GameStates } from "~src/app";
 
 import classes from "./game.module.scss";
@@ -51,7 +52,7 @@ export const Game = ({
       setFail(true);
       return;
     } //Animate shake
-    if (wlist.indexOf(currentRow) < 0) {
+    if (guessList.indexOf(currentRow) < 0) {
       setFail(true);
       return;
     } //Animate Shake
@@ -144,10 +145,10 @@ export const Game = ({
           gameState === "Won" ? classes.gameWinActive : classes.gameLostActive,
       }}
     >
-    <>
-      <div tabIndex={-1} className={classes.container}>
-        <div className={classes.grid}>
-          {moves.map((tiles, idx) => (
+      <>
+        <div tabIndex={-1} className={classes.container}>
+          <div className={classes.grid}>
+            {moves.map((tiles, idx) => (
               <CSSTransition
                 key={idx}
                 in={idx < currentGuess || (idx === currentGuess && fail)}
@@ -166,33 +167,33 @@ export const Game = ({
                       : classes.rowActive,
                 }}
               >
-            <div
-              ref={idx === currentGuess ? curRef : undefined}
-              className={classes.row}
-            >
-              {[...Array(5).keys()].map((tileIdx) => (
-                <Tile
-                  letter={
-                    idx === currentGuess
-                      ? currentRow[tileIdx]
-                      : tiles[tileIdx]?.letter
-                  }
+                <div
+                  ref={idx === currentGuess ? curRef : undefined}
+                  className={classes.row}
+                >
+                  {[...Array(5).keys()].map((tileIdx) => (
+                    <Tile
+                      letter={
+                        idx === currentGuess
+                          ? currentRow[tileIdx]
+                          : tiles[tileIdx]?.letter
+                      }
                       type={
                         idx !== currentGuess ? tiles[tileIdx]?.type : undefined
                       }
-                />
-              ))}
-            </div>
+                    />
+                  ))}
+                </div>
               </CSSTransition>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-      <Keyboard
-        changeWord={onWordChange}
-        submit={onSubmit}
-        {...{ checkedLetters }}
-      />
-    </>
+        <Keyboard
+          changeWord={onWordChange}
+          submit={onSubmit}
+          {...{ checkedLetters }}
+        />
+      </>
     </CSSTransition>
   );
 };
