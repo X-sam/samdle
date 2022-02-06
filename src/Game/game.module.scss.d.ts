@@ -1,5 +1,4 @@
 export type Styles = {
-  'container': string;
   'flash': string;
   'gameLostActive': string;
   'gameLostEnter': string;
