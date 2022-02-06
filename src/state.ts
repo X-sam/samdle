@@ -1,8 +1,9 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { addDays, differenceInHours } from "date-fns";
 import { MersenneTwister19937, shuffle } from "random-js";
 import { wlist as words } from "./wlist";
 import { StateType, GameStates, MoveType, StateContext } from "./types";
+import { useLocalStorage } from "usehooks-ts";
 
 const Rnader = MersenneTwister19937.seed(19879313);
 
@@ -33,5 +34,12 @@ export const useGameState = (): [
   React.Dispatch<React.SetStateAction<StateType>>
 ] => {
   const [state, setState] = useState<StateType>({ ...initialState });
+  const [saveState] = useLocalStorage<Record<number, StateType>>("samdle", {});
+  useEffect(() => {
+    if (saveState[wordNo]) {
+      const { nextDay, ...loadState } = saveState[wordNo];
+      setState({ ...state, ...loadState });
+    }
+  }, []);
   return [state, setState];
 };

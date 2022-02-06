@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
-import { useEventListener } from "usehooks-ts";
+import { useEventListener, useLocalStorage } from "usehooks-ts";
 import { Tile } from "~/src/Tile";
 import { Keyboard } from "~/src/Keyboard";
 import { guessList } from "~/src/wlist";
@@ -13,6 +13,9 @@ const compareWord = (move, word) =>
   move.reduce((acc, l, idx) => acc && l === [...word][idx], true) ?? false;
 export const Game = () => {
   const state = useContext(State);
+  const [savedState, setSavedState] = useLocalStorage<
+    Record<number, StateType>
+  >("samdle", {});
   const {
     gameState,
     word,
@@ -21,8 +24,14 @@ export const Game = () => {
     currentGuess,
     checkedLetters,
     wordNo,
-    setState,
   } = state;
+  //shim to save on update
+  const setState = (newState: StateContext) => {
+    const { setState: setUpstream, ...subState } = state;
+    const { setState: _, ...newsubState } = newState;
+    setUpstream(newState);
+    setSavedState({ ...savedState, [wordNo]: { ...subState, ...newState } });
+  };
 
   const curRef = useRef<HTMLDivElement>();
   const [fail, setFail] = useState(false);
