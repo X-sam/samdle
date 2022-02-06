@@ -3,9 +3,12 @@
 
 .root {
   background-color: $green;
-  padding: 0.75rem;
+  padding: getFontSize(-1);
   fill: $lineColor;
   position: relative;
+  svg {
+    height: $baseFont;
+  }
 }
 
 .enter {
