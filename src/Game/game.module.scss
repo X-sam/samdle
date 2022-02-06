@@ -5,7 +5,6 @@
   display: grid;
   grid-template-columns: inherit;
   grid-column: 1/6;
-  column-gap: 1vmin;
   justify-content: center;
 }
 .rowEnter {
@@ -52,9 +51,9 @@
   grid-template-columns: repeat(5, 1fr);
   grid-column: 2/2;
 
-  aspect-ratio: 5 / 6.5;
+  aspect-ratio: 5 / 6;
   max-width: 95vw;
-  row-gap: 1vmin;
+  height: 100%;
 }
 
 .gameWinEnter {
