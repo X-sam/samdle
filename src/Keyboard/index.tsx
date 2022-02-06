@@ -54,13 +54,19 @@ export const Keyboard = ({
           {[...row].map((keyName) => (
             <>
               {keyName === "Z" && (
-                <Key keyName={"⏎"} onClick={() => submit()} />
+                <Key
+                  keyName={"☰"}
+                  onClick={() => setState({ ...state, showModal: true })}
+                />
               )}
               <Key
                 checked={checkedLetters[keyName]}
                 onClick={() => changeWord(keyName)}
                 {...{ keyName }}
               />
+              {keyName === "L" && (
+                <Key keyName={"⏎"} onClick={() => submit()} />
+              )}
               {keyName === "M" && (
                 <Key keyName={"⌫"} onClick={() => changeWord()} />
               )}
