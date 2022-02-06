@@ -3,6 +3,7 @@ export type Styles = {
   'container': string;
   'next': string;
   'root': string;
+  'topBar': string;
 };
 
 export type ClassNames = keyof Styles;
