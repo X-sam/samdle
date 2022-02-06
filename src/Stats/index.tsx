@@ -27,12 +27,14 @@ export const Stats = () => {
   if (lastFail === 0) streak = Object.entries(stats).length;
   return (
     <div className={classes.root}>
-      <div>
-        You've solved {streak} in a row!{" "}
-        {streak > 10
-          ? streakMap[Math.floor(Math.random() * streakMap.length - 1)]
-          : ""}
-      </div>
+      {streak && (
+        <div>
+          You've solved {streak} in a row!{" "}
+          {streak > 10
+            ? streakMap[Math.floor(Math.random() * streakMap.length - 1)]
+            : ""}
+        </div>
+      )}
       {Object.keys(pcts).map((k) => {
         const pct = ((pcts[k] * 100) / total).toFixed(0);
         return (
