@@ -1,0 +1,27 @@
+@use "~/node_modules/animate.css/animate.css";
+@import "../theme.module.scss";
+
+.pcts {
+  display: flex;
+  > :first-child {
+    width: 2ch;
+    text-align: end;
+  }
+}
+
+.root {
+  align-self: stretch;
+  overflow: hidden;
+  font-size: $baseFont;
+  > :first-child {
+    text-align: center;
+  }
+}
+
+.bar {
+  background-color: $green;
+}
+.bars {
+  display: flex;
+  flex: 1;
+}
