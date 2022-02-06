@@ -7,21 +7,25 @@ import { guessList } from "~/src/wlist";
 
 import classes from "./game.module.scss";
 import { State } from "~src/state";
-import { PickedTypes } from "~src/types";
+import { StateContext, StateType } from "~src/types";
 
 const compareWord = (move, word) =>
   move.reduce((acc, l, idx) => acc && l === [...word][idx], true) ?? false;
 export const Game = () => {
   const state = useContext(State);
-  const { gameState, word, moves, currentRow, currentGuess, setState } = state;
-  const setCurrentRow = (row: string) =>
-    setState({ ...state, currentRow: row });
+  const {
+    gameState,
+    word,
+    moves,
+    currentRow,
+    currentGuess,
+    checkedLetters,
+    wordNo,
+    setState,
+  } = state;
 
   const curRef = useRef<HTMLDivElement>();
   const [fail, setFail] = useState(false);
-  const [checkedLetters, setCheckedLetters] = useState<
-    Record<string, PickedTypes>
-  >({});
 
   const onSubmit = useCallback(() => {
     if (gameState !== "Playing") return;
@@ -34,7 +38,7 @@ export const Game = () => {
       setState({
         ...state,
         moves: newMoves,
-        currentGuess: currentGuess + 1,
+        currentGuess: (currentGuess + 1) as StateType["currentGuess"],
         currentRow: "",
         gameState: "Won",
       });
@@ -81,12 +85,12 @@ export const Game = () => {
         newPicks[letter] === "Green" ? "" : (newPicks[letter] = "Yellow");
       }
     });
-    setCheckedLetters(newPicks);
     if (currentGuess === 5) {
       setState({
         ...state,
         moves: newMoves,
-        currentGuess: currentGuess + 1,
+        currentGuess: (currentGuess + 1) as StateType["currentGuess"],
+        checkedLetters: newPicks,
         currentRow: "",
         gameState: "Lost",
       });
@@ -95,18 +99,21 @@ export const Game = () => {
     setState({
       ...state,
       moves: newMoves,
-      currentGuess: currentGuess + 1,
+      currentGuess: (currentGuess + 1) as StateType["currentGuess"],
+      checkedLetters: newPicks,
       currentRow: "",
     });
-  }, [currentRow, moves, currentGuess, setState]);
+  }, [state, setState]);
   const onWordChange = useCallback(
     (letter?: string) => {
       if (gameState !== "Playing") return;
       curRef.current.scrollIntoView(false);
-      if (!letter) return setCurrentRow(currentRow.slice(0, -1));
-      if (currentRow.length < 5) setCurrentRow(`${currentRow}${letter}`);
+      if (!letter)
+        return setState({ ...state, currentRow: currentRow.slice(0, -1) });
+      if (currentRow.length < 5)
+        setState({ ...state, currentRow: `${currentRow}${letter}` });
     },
-    [gameState, currentRow, setCurrentRow]
+    [gameState, currentRow, setState]
   );
   useEffect(() => {
     if (!curRef) return;
@@ -180,11 +187,7 @@ export const Game = () => {
             </CSSTransition>
           ))}
         </div>
-        <Keyboard
-          changeWord={onWordChange}
-          submit={onSubmit}
-          {...{ checkedLetters }}
-        />
+        <Keyboard changeWord={onWordChange} submit={onSubmit} />
       </>
     </CSSTransition>
   );

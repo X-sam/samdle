@@ -14,7 +14,8 @@ export interface StateType {
   word: string;
   wordNo: number;
   nextDay: Date;
-  currentGuess: number;
+  currentGuess: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   currentRow: string;
   showModal: boolean;
+  checkedLetters: Record<string, PickedTypes>;
 }

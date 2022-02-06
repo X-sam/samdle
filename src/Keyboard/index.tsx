@@ -1,6 +1,12 @@
-import { useRef, useLayoutEffect, useState, useEffect } from "react";
+import {
+  useRef,
+  useLayoutEffect,
+  useState,
+  useEffect,
+  useContext,
+} from "react";
 import { useEventListener } from "usehooks-ts";
-import { PickedTypes } from "~src/Game";
+import { State } from "~src/state";
 import classes from "./keyboard.module.scss";
 
 const rows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
@@ -33,14 +39,14 @@ const Key = ({ keyName, checked = "", ...props }) => {
 
 //changeWord with arg- add letter. No arg- delete letter.
 export const Keyboard = ({
-  checkedLetters,
   changeWord,
   submit,
 }: {
-  checkedLetters: Record<string, PickedTypes | "">;
   changeWord: (_?: string) => void;
   submit: () => void;
 }) => {
+  const { setState, ...state } = useContext(State);
+  const { checkedLetters } = state;
   return (
     <div className={classes.container}>
       {rows.map((row) => (

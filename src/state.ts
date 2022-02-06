@@ -20,7 +20,9 @@ const initialState: StateType = {
   currentRow: "",
   showModal: false,
   nextDay,
+  checkedLetters: {},
 };
+
 export const State = createContext<StateContext>({
   setState: (_: StateType) => {},
   ...initialState,
