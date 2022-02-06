@@ -9,6 +9,14 @@
   justify-content: center;
   align-items: center;
 }
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-self: stretch;
+  :first-child {
+    font-size: getFontSize(1);
+  }
+}
 .close {
   align-self: flex-end;
 }
@@ -19,7 +27,6 @@
   align-items: center;
 }
 .container {
-  max-height: 60vh;
   & > * + * {
     margin-block-start: 2rem;
   }
