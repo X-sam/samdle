@@ -8,6 +8,11 @@ export const App = () => {
   return (
     <State.Provider value={{ ...state, setState }}>
       <div className={classes.root}>
+        <div className={classes.title}>
+          {[..."Samdle!"].map((l) => (
+            <div>{l}</div>
+          ))}
+        </div>
         {state.showModal && <Modal />}
         {<Game />}
       </div>

@@ -4,7 +4,7 @@
   width: 100vw;
   height: 90vh;
   display: grid;
-  grid-template-rows: 60vh 1fr;
+  grid-template-rows: 0.2fr 60vh 1fr;
   grid-template-columns: 1fr max-content 1fr;
   justify-items: center;
   overflow: hidden;
@@ -12,6 +12,23 @@
   row-gap: 1vmin;
   font-family: "Readex Pro", sans-serif;
   color: #f8f8f8;
+}
+.title {
+  grid-column: 2/2;
+  font-size: getFontSize(2);
+  display: grid;
+  justify-self: flex-end;
+  grid-template-columns: repeat(7, 1fr);
+  > * {
+    border: solid 0.2vmin $lineColor;
+    border-radius: 0.25vmin;
+    background-color: $bgLight;
+    margin: 0.2vmin;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 body {
