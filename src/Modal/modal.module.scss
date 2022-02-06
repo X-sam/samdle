@@ -1,14 +1,5 @@
 @import "../theme.module.scss";
 
-@keyframes shower {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 .root {
   position: absolute;
   width: 100%;
@@ -17,14 +8,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: shower 2.4s step-end;
+}
+.close {
+  align-self: flex-end;
 }
 
+.next {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .container {
-  min-height: 60vh;
-  aspect-ratio: 0.9;
+  max-height: 60vh;
+  & > * + * {
+    margin-block-start: 2rem;
+  }
   max-width: 85vw;
-  width: max(40vh, 600px);
+  padding: 2rem;
   background-color: rgba($bgLight, 0.95);
   display: flex;
   flex-direction: column;

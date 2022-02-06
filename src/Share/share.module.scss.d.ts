@@ -1,8 +1,9 @@
 export type Styles = {
-  'close': string;
-  'container': string;
-  'next': string;
+  'active': string;
+  'enter': string;
+  'popup': string;
   'root': string;
+  'slideOutUp': string;
 };
 
 export type ClassNames = keyof Styles;

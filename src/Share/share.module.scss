@@ -1,0 +1,31 @@
+@use "~/node_modules/animate.css/animate.css";
+@import "../theme.module.scss";
+
+.root {
+  background-color: $green;
+  padding: 0.75rem;
+  fill: $lineColor;
+  position: relative;
+}
+
+.enter {
+  position: inherit;
+}
+.active {
+  animation: slideOutUp 750ms;
+  display: block;
+}
+.popup {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
