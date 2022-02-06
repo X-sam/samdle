@@ -14,6 +14,7 @@
   "dependencies": {
     "parcel": "^2.2.1"
   },
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "devDependencies": {
     "@parcel/transformer-sass": "^2.2.1",
     "@parcel/transformer-svg-react": "^2.2.1",
