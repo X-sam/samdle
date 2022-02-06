@@ -5,8 +5,10 @@ export interface MoveType {
   type: PickedTypes;
 }
 
-export interface StateType {
+export interface StateContext extends StateType {
   setState: (_: StateType) => void;
+}
+export interface StateType {
   gameState: GameStates;
   moves: MoveType[][];
   word: string;
