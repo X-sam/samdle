@@ -4,6 +4,7 @@ import {
   useState,
   useEffect,
   useContext,
+  Fragment,
 } from "react";
 import { useEventListener } from "usehooks-ts";
 import { State } from "~src/state";
@@ -50,9 +51,9 @@ export const Keyboard = ({
   return (
     <div className={classes.container}>
       {rows.map((row) => (
-        <div className={classes.row}>
+        <div key={row[0]} className={classes.row}>
           {[...row].map((keyName) => (
-            <>
+            <Fragment key={keyName}>
               {keyName === "Z" && (
                 <Key
                   keyName={"☰"}
@@ -70,7 +71,7 @@ export const Keyboard = ({
               {keyName === "M" && (
                 <Key keyName={"⌫"} onClick={() => changeWord()} />
               )}
-            </>
+            </Fragment>
           ))}
         </div>
       ))}

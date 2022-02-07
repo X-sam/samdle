@@ -181,12 +181,10 @@ export const Game = () => {
                 className={classes.row}
               >
                 {[...Array(5).keys()].map((tileIdx) => (
-                  <MappedTile
-                    currentGuess={
-                      gameState === "Won" ? currentGuess + 1 : currentGuess
-                    }
-                    {...{ idx, currentRow, tileIdx, tiles }}
-                  />
+                  <Tile key={tileIdx} type={tiles[tileIdx]?.type}>
+                    {tiles[tileIdx]?.letter ??
+                      (idx === currentGuess && currentRow[tileIdx])}
+                  </Tile>
                 ))}
               </div>
             </CSSTransition>
@@ -195,27 +193,5 @@ export const Game = () => {
         <Keyboard changeWord={onWordChange} submit={onSubmit} />
       </>
     </CSSTransition>
-  );
-};
-const MappedTile = ({
-  idx,
-  currentGuess,
-  currentRow,
-  tileIdx,
-  tiles,
-}: {
-  idx: number;
-  currentGuess: number;
-  currentRow: string;
-  tileIdx: number;
-  tiles: import("/Users/sambonfante/gits/Samdle/src/types").MoveType[];
-}) => {
-  return (
-    <Tile
-      letter={
-        idx === currentGuess ? currentRow[tileIdx] : tiles[tileIdx]?.letter
-      }
-      type={idx !== currentGuess ? tiles[tileIdx]?.type : undefined}
-    />
   );
 };

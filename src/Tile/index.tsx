@@ -1,9 +1,9 @@
 import classes from "./tile.module.scss";
 
 export const Tile = ({
-  letter,
   type,
+  children,
 }: {
-  letter?: string;
   type?: "Green" | "Yellow" | "Grey";
-}) => <div className={`${classes.tile} ${classes[type]}`}>{letter}</div>;
+  children: string;
+}) => <div className={`${classes.tile} ${classes[type]}`}>{children}</div>;

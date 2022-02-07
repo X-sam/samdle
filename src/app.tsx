@@ -10,7 +10,7 @@ export const App = () => {
       <div className={classes.root}>
         <div className={classes.title}>
           {[..."Samdle!"].map((l) => (
-            <div>{l}</div>
+            <div key={l}>{l}</div>
           ))}
         </div>
         {state.showModal && <Modal />}
