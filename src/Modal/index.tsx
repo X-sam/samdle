@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import classes from "./modal.module.scss";
 import { Countdown } from "~src/Countdown";
 import { Share } from "~src/Share";
@@ -7,32 +7,38 @@ import { State } from "~src/State/state";
 import { pick, nativeMath } from "random-js";
 
 export const Modal = () => {
-  const {dispatch } = useContext(State);
+  const { gameState } = useContext(State);
   return (
     <div className={classes.root}>
       <div className={classes.container}>
-        <div className={classes.topBar}>
-          <div>{pick(nativeMath, TitleOptions)}</div>
-          <button
-            className={classes.close}
-            onClick={() => {
-          dispatch({ type: "HideModal" });
-            }}
-          >
-            X
-          </button>
-        </div>
+        <Header />
         <Stats />
         <div className={classes.next}>
           <div>Next Game In:</div>
           <Countdown />
         </div>
-        <Share />
+        {gameState !== "Playing" && <Share />}
       </div>
     </div>
   );
 };
-
+const Header = () => {
+  const { dispatch } = useContext(State);
+  const titleText = useMemo(() => pick(nativeMath, TitleOptions), []);
+  return (
+    <div className={classes.topBar}>
+      <div>{titleText}</div>
+      <button
+        className={classes.close}
+        onClick={() => {
+          dispatch({ type: "HideModal" });
+        }}
+      >
+        X
+      </button>
+    </div>
+  );
+};
 const TitleOptions = [
   "Samdle!",
   "Statistics and More!",
