@@ -1,12 +1,12 @@
 import classes from "./index.module.scss";
 import { Modal } from "./Modal";
 import { Game } from "./Game";
-import { State, useGameState } from "./state";
+import { State, useGameState } from "./State/state";
 
 export const App = () => {
-  const [state, setState] = useGameState();
+  const [state, dispatch] = useGameState();
   return (
-    <State.Provider value={{ ...state, setState }}>
+    <State.Provider value={{ ...state, dispatch }}>
       <div className={classes.root}>
         <div className={classes.title}>
           {[..."Samdle!"].map((l) => (

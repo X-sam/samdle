@@ -5,9 +5,12 @@ export type Styles = {
   'gameWinActive': string;
   'gameWinEnter': string;
   'grid': string;
+  'hinge': string;
   'row': string;
   'rowActive': string;
   'rowEnter': string;
+  'rowLoseActive': string;
+  'rowLoseEnter': string;
   'rowWinActive': string;
   'rowWinEnter': string;
   'shakeX': string;

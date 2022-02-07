@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { intervalToDuration } from "date-fns";
 import { useInterval } from "usehooks-ts";
 import classes from "./countdown.module.scss";
-import { State } from "~src/state";
+import { State } from "~src/State/state";
 
 export const Countdown = () => {
   const { nextDay } = useContext(State);

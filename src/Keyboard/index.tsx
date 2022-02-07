@@ -7,7 +7,7 @@ import {
   Fragment,
 } from "react";
 import { useEventListener } from "usehooks-ts";
-import { State } from "~src/state";
+import { State } from "~src/State/state";
 import classes from "./keyboard.module.scss";
 
 const rows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
@@ -41,12 +41,10 @@ const Key = ({ keyName, checked = "", ...props }) => {
 //changeWord with arg- add letter. No arg- delete letter.
 export const Keyboard = ({
   changeWord,
-  submit,
 }: {
   changeWord: (_?: string) => void;
-  submit: () => void;
 }) => {
-  const { setState, ...state } = useContext(State);
+  const { dispatch, ...state } = useContext(State);
   const { checkedLetters } = state;
   return (
     <div className={classes.container}>
@@ -57,7 +55,7 @@ export const Keyboard = ({
               {keyName === "Z" && (
                 <Key
                   keyName={"☰"}
-                  onClick={() => setState({ ...state, showModal: true })}
+                  onClick={() => dispatch({ type: "ShowModal" })}
                 />
               )}
               <Key
@@ -66,7 +64,10 @@ export const Keyboard = ({
                 {...{ keyName }}
               />
               {keyName === "L" && (
-                <Key keyName={"⏎"} onClick={() => submit()} />
+                <Key
+                  keyName={"⏎"}
+                  onClick={() => dispatch({ type: "Submit" })}
+                />
               )}
               {keyName === "M" && (
                 <Key keyName={"⌫"} onClick={() => changeWord()} />

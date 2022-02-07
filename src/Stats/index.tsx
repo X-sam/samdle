@@ -1,13 +1,9 @@
 import { useContext } from "react";
-import { useLocalStorage } from "usehooks-ts";
-import { State } from "~src/state";
-import { StateType } from "~src/types";
+import { State } from "~src/State/state";
 import classes from "./stats.module.scss";
 
 export const Stats = () => {
-  const [stats] = useLocalStorage<Record<number, StateType>>("samdle", {});
-  const { wordNo } = useContext(State);
-  console.log(stats);
+  const { wordNo, savedState: stats } = useContext(State);
 
   if (!stats[wordNo]) return <></>;
   const pcts = Object.entries(stats).reduce(

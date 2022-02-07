@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import { useCopyToClipboard } from "usehooks-ts";
-import { State } from "~src/state";
-import { GameStates, MoveType, PickedTypes } from "~src/types";
+import { State } from "~src/State/state";
+import { MoveType, PickedTypes } from "~src/state/types";
 
 import classes from "./share.module.scss";
 import ShareSVG from "./shareIcon.svg";

@@ -3,11 +3,11 @@ import classes from "./modal.module.scss";
 import { Countdown } from "~src/Countdown";
 import { Share } from "~src/Share";
 import { Stats } from "~src/Stats";
-import { State } from "~src/state";
+import { State } from "~src/State/state";
 import { pick, nativeMath } from "random-js";
 
 export const Modal = () => {
-  const state = useContext(State);
+  const {dispatch } = useContext(State);
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -16,7 +16,7 @@ export const Modal = () => {
           <button
             className={classes.close}
             onClick={() => {
-              state.setState({ ...state, showModal: false });
+          dispatch({ type: "HideModal" });
             }}
           >
             X
