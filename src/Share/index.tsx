@@ -25,8 +25,7 @@ const moveToString = (move: MoveType[]) =>
 const getString = (
   moves: MoveType[][],
   currentGuess: number,
-  wordNo: number,
-  gameState: GameStates
+  wordNo: number
 ) => {
   return `Samdle! #${wordNo}: ${currentGuess > 5 ? "X" : currentGuess + 1}/6
   \n${moves.reduce((acc, move) => `${acc}${moveToString(move)}\n`, "")}`;
@@ -34,7 +33,7 @@ const getString = (
 export const Share = () => {
   const [clicked, setClicked] = useState(false);
   const [rpos, setRpos] = useState(20);
-  const { moves, currentGuess, wordNo, gameState } = useContext(State);
+  const { moves, currentGuess, wordNo } = useContext(State);
   const [, copy] = useCopyToClipboard();
   return (
     <button
@@ -45,8 +44,7 @@ export const Share = () => {
           getString(
             moves.filter((_, idx) => idx < currentGuess),
             currentGuess,
-            wordNo,
-            gameState
+            wordNo
           )
         );
         setRpos(Math.floor(Math.random() * 60));
