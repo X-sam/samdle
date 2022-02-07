@@ -47,7 +47,7 @@ export const Game = () => {
       setState({
         ...state,
         moves: newMoves,
-        currentGuess: (currentGuess + 1) as StateType["currentGuess"],
+        currentGuess,
         currentRow: "",
         gameState: "Won",
       });
@@ -162,7 +162,7 @@ export const Game = () => {
           {moves.map((tiles, idx) => (
             <CSSTransition
               key={idx}
-              in={idx < currentGuess || (idx === currentGuess && fail)}
+              in={idx === currentGuess && (gameState !== "Playing" || fail)}
               timeout={gameState === "Playing" ? 100 : 5000}
               onEntered={() => {
                 setFail(false);
@@ -181,15 +181,11 @@ export const Game = () => {
                 className={classes.row}
               >
                 {[...Array(5).keys()].map((tileIdx) => (
-                  <Tile
-                    letter={
-                      idx === currentGuess
-                        ? currentRow[tileIdx]
-                        : tiles[tileIdx]?.letter
+                  <MappedTile
+                    currentGuess={
+                      gameState === "Won" ? currentGuess + 1 : currentGuess
                     }
-                    type={
-                      idx !== currentGuess ? tiles[tileIdx]?.type : undefined
-                    }
+                    {...{ idx, currentRow, tileIdx, tiles }}
                   />
                 ))}
               </div>
@@ -199,5 +195,27 @@ export const Game = () => {
         <Keyboard changeWord={onWordChange} submit={onSubmit} />
       </>
     </CSSTransition>
+  );
+};
+const MappedTile = ({
+  idx,
+  currentGuess,
+  currentRow,
+  tileIdx,
+  tiles,
+}: {
+  idx: number;
+  currentGuess: number;
+  currentRow: string;
+  tileIdx: number;
+  tiles: import("/Users/sambonfante/gits/Samdle/src/types").MoveType[];
+}) => {
+  return (
+    <Tile
+      letter={
+        idx === currentGuess ? currentRow[tileIdx] : tiles[tileIdx]?.letter
+      }
+      type={idx !== currentGuess ? tiles[tileIdx]?.type : undefined}
+    />
   );
 };
